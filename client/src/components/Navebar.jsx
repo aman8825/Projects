@@ -1,17 +1,23 @@
 import React from 'react'
-import {Link}
+import { Link } from 'react-router-dom'
 const Navebar = () => {
   return (
 <>
-    <div className='bg-(--primary) text-(--text-light) p-4 font-bold'>
+    <div className='bg-(--color-primary) text-(--text-light) flex justify-between top-0 z-50 sticky px-5 '>
 
-        <div>
-            Cravings
+        <div className='h-16 w-40'>
+           <Link to="/"><img src="https://cravings.ricr.in/assets/transparentLogoLight-De2Z7I01.png" alt="" className='h-full' /></Link>
         </div>
-        <div>
-            <Link>
-            </Link>
+        <div className=' flex gap-4 h-1/2 font-medium m-4'  >
+         
+<Link to="/login" className='text-(--color-primary-content) p-1 hover:border'>Login</Link>
+          
+
+ <Link to="/register" className='text-(--color-primary) bg-(--color-primary-content) p-1 rounded '>Register</Link>
+
+       
         </div>
+        
     </div>
 </>
   )

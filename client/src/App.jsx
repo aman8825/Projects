@@ -1,26 +1,27 @@
-import React from 'react'
-import Navebar from './components/Navebar'
-import Footer from './components/Footer'
-import { BrowserRouter, Route, Router } from 'react-router-dom'
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ContactUs from "./pages/ContactUs";
+import Navebar from "./components/Navebar";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
-<>
-<BrowserRouter>
-<Navebar/>
-<Router>
-  <Route>
-    
-  </Route>
+    <>
+      <BrowserRouter>
+        <Navebar/>
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+        </Routes>
+        <Footer/>
+      </BrowserRouter>
+    </>
+  );
+};
 
-</Router>
-
-    
-<Footer/>
-</BrowserRouter>
-
-</>
-  )
-}
-
-export default App
+export default App;

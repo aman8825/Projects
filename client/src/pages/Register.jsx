@@ -47,7 +47,7 @@ const Register = () => {
       const res= await api.post("/auth/register", payload)
       alert(res.data.message);
     } catch (error) {
-      console.log(error.message);
+     console.log(res?.data?.message || error.message);
       
     }
   }
@@ -88,6 +88,14 @@ const Register = () => {
                 onChange={handleChange}
                 value={registerData.email}
                 placeholder="Enter your email"
+                className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
+              />
+              <input
+                type="tel"
+                name="phone"
+                onChange={handleChange}
+                value={registerData.phone}
+                placeholder="Enter your phoneNo"
                 className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
               />
               <input

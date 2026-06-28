@@ -1,30 +1,55 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import api from "../config/api.config";
 const Register = () => {
+  const navigate = useNavigate();
   const [registerData, setRegisterData] = useState({
-    registerAs:"",
+     fullName: "",
     name:"",
     email:"",
+    phone:"",
     password:"",
     confirmPassword:""
 
   })
-
+  const [validateError, setValidateError] = useState();
   const handleChange=(e)=>{
     const name=e.target.name;
     const  value=e.target.value;
     
      setRegisterData((prevData) => ({ ...prevData, [name]: value }));
   
-console.log(name);
-  console.log(value);
+
 
   }
-  const handleSubmit=(e)=>{
+  const handleSubmit= async (e)=>{
      e.preventDefault();
 
-     console.log("Register done");
-     
+        if (registerData.password !== registerData.confirmPassword) {
+      setValidateError("Passwords do not match");
+      return;
+    }
+     setValidateError("");
+    console.log("Register data submitted:", registerData);
+
+    const payload = {
+      fullName: registerData.fullName,
+      email: registerData.email.toLowerCase(),
+      // gender: registerData.gender,
+      // dob: registerData.dob,
+      phone: registerData.phone,
+      password: registerData.password,
+      confirmPassword: registerData.confirmPassword,
+    };
+
+    try {
+      const res= await api.post("/auth/register", payload)
+      alert(res.data.message);
+    } catch (error) {
+      console.log(error.message);
+      
+    }
   }
   return (
     <>
@@ -51,9 +76,9 @@ console.log(name);
             <div className="flex flex-col gap-4 w-full mt-2.5">
               <input
                 type="text"
-                name="name"
+                name="fullName"
                 onChange={handleChange}
-                 value={registerData.name}
+                 value={registerData.fullName}
                 placeholder="Enter your name"
                 className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
               />

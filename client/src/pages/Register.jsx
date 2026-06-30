@@ -16,11 +16,9 @@ const Register = () => {
   const [validateError, setValidateError] = useState();
   const handleChange=(e)=>{
     const name=e.target.name;
-    const  value=e.target.value;
-    
-     setRegisterData((prevData) => ({ ...prevData, [name]: value }));
+    const  value=e.target.value;    
+    setRegisterData((prevData) => ({ ...prevData, [name]: value }));
   
-
 
   }
   const handleSubmit= async (e)=>{

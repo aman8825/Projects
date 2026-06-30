@@ -5,30 +5,27 @@ import api from "../config/api.config";
 const Register = () => {
   const navigate = useNavigate();
   const [registerData, setRegisterData] = useState({
-     fullName: "",
-    name:"",
-    email:"",
-    phone:"",
-    password:"",
-    confirmPassword:""
-
-  })
+    fullName: "",
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [validateError, setValidateError] = useState();
-  const handleChange=(e)=>{
-    const name=e.target.name;
-    const  value=e.target.value;    
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
     setRegisterData((prevData) => ({ ...prevData, [name]: value }));
-  
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  }
-  const handleSubmit= async (e)=>{
-     e.preventDefault();
-
-        if (registerData.password !== registerData.confirmPassword) {
+    if (registerData.password !== registerData.confirmPassword) {
       setValidateError("Passwords do not match");
       return;
     }
-     setValidateError("");
+    setValidateError("");
     console.log("Register data submitted:", registerData);
 
     const payload = {
@@ -42,25 +39,23 @@ const Register = () => {
     };
 
     try {
-      const res= await api.post("/auth/register", payload)
+      const res = await api.post("/auth/register", payload);
       alert(res.data.message);
     } catch (error) {
-     console.log(res?.data?.message || error.message);
-      
+      console.log(res?.data?.message || error.message);
     }
-  }
+  };
   return (
     <>
       <div className="h-[90vh]  grid-cols-2 p-20 bg-[url('https://cravings.ricr.in/foodTable.webp')] bg-cover  ">
         <div className="w-md bg-(--color-base-200) rounded-2xl shadow p-10 flex flex-col justify-center float-end">
-          
-            <h1 className="font-bold text-3xl text-(--color-primary) text-center">
-              Create Account
-            </h1>
-            <p className="text-(--color-secondary) text-center">
-              Join us as a Customer, Restaurant, or Rider
-            </p>
-         
+          <h1 className="font-bold text-3xl text-(--color-primary) text-center">
+            Create Account
+          </h1>
+          <p className="text-(--color-secondary) text-center">
+            Join us as a Customer, Restaurant, or Rider
+          </p>
+
           <form onSubmit={handleSubmit}>
             <h3>Register as:</h3>
             <div className="flex gap-3 mt-1 mb-1 text-xl text-gray-600">
@@ -76,7 +71,7 @@ const Register = () => {
                 type="text"
                 name="fullName"
                 onChange={handleChange}
-                 value={registerData.fullName}
+                value={registerData.fullName}
                 placeholder="Enter your name"
                 className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
               />
@@ -113,21 +108,26 @@ const Register = () => {
                 className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
               />
               <div className="flex gap-1">
-<input type="checkbox" /> <span>I agree to the </span> <span className="text-(--color-primary) hover:underline">terms and conditions.</span>
+                <input type="checkbox" /> <span>I agree to the </span>{" "}
+                <span className="text-(--color-primary) hover:underline">
+                  terms and conditions.
+                </span>
               </div>
-              
             </div>
-             <button
+            <button
               type="submit"
               className="mt-6 bg-(--color-primary) text-white py-2 px-4 rounded hover:scale-95 w-full font-medium"
             >
               Register
             </button>
-            <div className="text-center mt-2 flex"  >
-                <p className="text-(--color-secondary)">
-             Already registered? 
-            </p>
-           <Link to="/login" className='text-(--color-primary) hover:underline '>Login here</Link>
+            <div className="text-center mt-2 flex">
+              <p className="text-(--color-secondary)">Already registered?</p>
+              <Link
+                to="/login"
+                className="text-(--color-primary) hover:underline "
+              >
+                Login here
+              </Link>
             </div>
           </form>
         </div>

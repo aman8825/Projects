@@ -6,17 +6,22 @@ import Register from "./pages/Register";
 import ContactUs from "./pages/ContactUs";
 import Navebar from "./components/Navebar";
 import Footer from "./components/Footer";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
     <>
       <BrowserRouter>
+      <Toaster/>
         <Navebar/>
         <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/contact-us" element={<ContactUs />} />
+{/* Dashboard Routs */}
+<Route path="/user/dashboard"/>
+
         </Routes>
         <Footer/>
       </BrowserRouter>

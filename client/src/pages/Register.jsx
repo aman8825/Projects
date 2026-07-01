@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import api from "../config/api.config";
+import toast from "react-hot-toast";
 const Register = () => {
   const navigate = useNavigate();
   const [registerData, setRegisterData] = useState({
@@ -40,14 +41,14 @@ const Register = () => {
 
     try {
       const res = await api.post("/auth/register", payload);
-      alert(res.data.message);
+       toast.success(res.data.message);
     } catch (error) {
-      console.log(res?.data?.message || error.message);
+    toast.error(error.response?.data?.message || error.message);
     }
   };
   return (
     <>
-      <div className="h-[90vh]  grid-cols-2 p-20 bg-[url('https://cravings.ricr.in/foodTable.webp')] bg-cover  ">
+      <div className="h-[100vh]  grid-cols-2 p-20 bg-[url('https://cravings.ricr.in/foodTable.webp')] bg-cover  ">
         <div className="w-md bg-(--color-base-200) rounded-2xl shadow p-10 flex flex-col justify-center float-end">
           <h1 className="font-bold text-3xl text-(--color-primary) text-center">
             Create Account

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import api from "../config/api.config";
 const ContactUs = () => {
   const navigate = useNavigate();
 
@@ -12,8 +14,6 @@ const ContactUs = () => {
     message: "",
   });
 
-  const [validateError, setValidateError] = useState();
-  const [successMessage, setSuccessMessage] = useState();
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -25,7 +25,6 @@ const ContactUs = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("ContactUs data submitted:", contactData);
     if (
       !contactData.fullName ||
       !contactData.email ||
@@ -33,15 +32,10 @@ const ContactUs = () => {
       !contactData.subject ||
       !contactData.message
     ) {
-      setValidateError("All fields are required");
+       toast.error("All fields are required");
       return;
     }
-
-    setValidateError("");
-    setSuccessMessage(
-      "Thank you for contacting us! We'll get back to you soon.",
-    );
-    console.log("Contact data submitted:", contactData);
+   
 
     const payload = {
       fullName: contactData.fullName,
@@ -50,6 +44,12 @@ const ContactUs = () => {
       subject: contactData.subject,
       message: contactData.message,
     };
+     try {
+      const res = await api.post("/public/contact-us", payload);
+       toast.success(res.data.message);
+    } catch (error) {
+    toast.error(error.response?.data?.message || error.message);
+    }
 
     // Reset form after submission
     setTimeout(() => {
@@ -60,7 +60,6 @@ const ContactUs = () => {
         subject: "",
         message: "",
       });
-      setSuccessMessage("");
     }, 3000);
   };
   return (

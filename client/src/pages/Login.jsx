@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 import api from "../config/api.config";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 const Login = () => {
+  const {setUser,setIsLogin, isLogin} =useAuth()
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: "",
@@ -24,7 +26,7 @@ const Login = () => {
     // Handle login logic here, e.g., send loginData to the server
     //Validate loginData
 
-    console.log("Login data submitted:", loginData);
+    
 
     const payload = {
       email: loginData.email.toLowerCase(),
@@ -33,13 +35,15 @@ const Login = () => {
      try {
       const res= await api.post("/auth/login", payload)
      toast.success(res.data.message);
-     console.log(res.data.data);
+     
       sessionStorage.setItem("UserData", JSON.stringify(res.data.data));
+      setUser(res.data.data)
+      // setIsLogin(true);
      navigate("/user/dashboard")
      
     } catch (error) {
       toast.error(
-error.response.statu + " | " + error.response?.data?.message||
+error.response.status + " | " + error.response?.data?.message||
 error.message
       )     
     }

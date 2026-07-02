@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
-
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 const UserDashboard = () => {
-  const [userData, setUserData] = useState("");
+  const navigate = useNavigate();
+ const {
+    user,
+    setUser,
+    setIsLogin
+  } = useAuth();
 
-  useEffect(() => {
-    setUserData(JSON.parse(sessionStorage.getItem("UserData")));
-  }, []);
-  
+  // useEffect(() => {
+  //   setUserData(JSON.parse(sessionStorage.getItem("UserData")));
+  // }, []);
+
 const divClass="flex gap-6 mt-4 text-xl  "
 const elementClass="w-24 font-normal"
   return (
@@ -22,33 +28,38 @@ const elementClass="w-24 font-normal"
 <div className={divClass}>
   <div className="w-24 h-24 rounded-full overflow-hidden ">
         <img
-          src={userData.photo}
+          src={user.photo}
           alt=""
           className="w-full h-full object-cover "
         />
         
       </div>
       <div >
-        <h1 className="font-bold mt-1 text-2xl ">{userData.fullName} </h1>
+        <h1 className="font-bold mt-1 text-2xl ">{user.fullName} </h1>
         <p>Customer</p>
       </div>
 </div>
 <div className={divClass}>
   <div  className={elementClass}>Full Name</div>
-  <div> {userData.fullName}</div>
+  <div> {user.fullName}</div>
 </div>
 <div className={divClass}>
   <div className={elementClass}>Email</div>
-  <div className="flex-1 break-all">{userData.email}</div>
+  <div className="flex-1 break-all">{user.email}</div>
 </div>
 <div className={divClass}>
   <div className={elementClass}>Phone</div>
-  <div>{userData.phone}</div>
+  <div>{user.phone}</div>
 </div>
 
 <div className="flex justify-between p-4">
   <button className='text-(--color-primary) bg-(--color-primary-content) p-2  border border-(--color-primary) hover:scale-95  rounded-lg transition-all'  >Edit Profile</button>
-  <button className="text-(--color-primary-content) bg-(--color-primary) p-2 rounded-lg hover:scale-95">Logout</button>
+  <button className="text-(--color-primary-content) bg-(--color-primary) p-2 rounded-lg hover:scale-95" onClick={()=>{
+    sessionStorage.removeItem("UserData")
+    setIsLogin(false)
+    setUser(false);
+    navigate("/")
+  }}>Logout</button>
 </div>
      
 </div>

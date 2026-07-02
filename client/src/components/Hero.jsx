@@ -1,9 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 const Hero = () => {
+  const images = [
+  "https://cravings.ricr.in/assets/bgImage1-BgVBBcls.jpg",
+  "https://cravings.ricr.in/assets/bgImage2-CSvQeVNX.jpg",
+  "https://cravings.ricr.in/assets/bgImage3-BTY6Sz_K.jpg",
+  "https://cravings.ricr.in/assets/bgImage4-L1QELaMd.jpg"
+];
+
+const [currentImage, setCurrentImage] = useState(0);
+useEffect(() => {
+  const interval = setInterval(() => {
+    setCurrentImage((prev) => (prev + 1) % images.length);
+  }, 5000); 
+
+  return () => clearInterval(interval);
+}, []);
   return (
 <>
-    <div className="h-[90vh] bg-[url('https://cravings.ricr.in/assets/bgImage4-L1QELaMd.jpg')] bg-cover " >
+    <div
+  className="h-[90vh] bg-cover bg-center transition-all duration-1000"
+  style={{
+    backgroundImage: `url(${images[currentImage]})`,
+  }}
+>
     <div className='text-center text-(--color-primary-content) pt-32'>
         <h1 className='text-5xl font-black'>Your Favorite Food, <br />
 Delivered Fast</h1>

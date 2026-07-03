@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 const AuthContext = React.createContext();
 
 export const Authprovider = ({ children }) => {
-  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("userData")) ||"" );
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("UserData")) ||"" );
   const [isLogin, setIsLogin] = useState(!!user);
 
   useEffect(() => {

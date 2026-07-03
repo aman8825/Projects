@@ -61,7 +61,7 @@ export const LoginUser = async (req, res, next) => {
       error.statusCode = 401;
       return next(error);
     }
-
+  await genToken(existingUser,res);
     res.status(200).json({
       message: "Welcome Back",
       data: existingUser,

@@ -63,8 +63,8 @@ const Wishlist = () => {
   const [liked,setLiked] =useState(false)
   return (
 <>
-    <div className='p-3'>
-      <h1 className='text-2xl font-semibold'>  Wishlist </h1>
+    <div >
+      <h1 className='text-2xl font-medium'>  Wishlist </h1>
       <div className='grid  grid-cols-4 max-lg:grid-cols-3 max-sm:grid-cols-2 gap-6'>
   {wishlistData.map((data)=>{
         return(

@@ -70,7 +70,7 @@ error.message
                 name="email"
                 value={loginData.email}
                 onChange={handleChange}
-                className='p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none '
+                className='p-2 border-2 border-orange-200 focus:border-2 focus:border-orange-500 outline-none '
               />
             </div>
             <div className="flex flex-col gap-2 mt-4">
@@ -81,7 +81,7 @@ error.message
                 name="password"
                 value={loginData.password}
                 onChange={handleChange}
-                className='p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none '
+                className='p-2 border-2 border-orange-200 focus:border-2 focus:border-orange-500 outline-none '
               />
             </div>
             <div className="flex  justify-between mt-3">

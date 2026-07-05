@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const genToken = async (user, res) => {
+ export const genToken = async (user, res) => {
   try {
     const payload = { id: user._id };
     const token = await jwt.sign(payload, process.env.JWT_SECRET, {

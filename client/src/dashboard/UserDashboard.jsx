@@ -22,11 +22,11 @@ const [open, setOpen] = useState(false);
   return (
     <>
 
-      <div className="flex max-xl:h-full min-h-[90vh]">
-        <div className={`${open?"w-1/6" :"w-1/16"}  h-full`}>
+      <div className="flex max-xl:h-full min-h-[90vh] ">
+        <div className={`${open?"w-1/6" :"w-1/16"}  h-full `}>
           <Sidebar active={active} open={open} setActive={setActive} setOpen={setOpen} />
         </div>
-        <div className={`${open?"w-5/6" :"w-15/16"} h-full`}>
+        <div className={`${open?"w-5/6" :"w-15/16"} h-full p-6`}>
           {active === "Overview" && <Overview />}
           {active === "Orders" && <Orders />}
           {active === "WishList" && <Wishlist />}

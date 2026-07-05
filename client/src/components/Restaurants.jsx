@@ -47,7 +47,8 @@ const Restaurants = () => {
   {restaurant.map((restaurant)=>(
 <div 
  key={restaurant.id}
-  className="w-96 h-full mt-8  bg-white rounded-xl shadow hover:scale-105">
+        className="w-96 max-md:w-full bg-white rounded-xl shadow hover:scale-105 flex flex-col"
+>
             <div className="w-full relative overflow-hidden">
               <img
                 src={restaurant.image}

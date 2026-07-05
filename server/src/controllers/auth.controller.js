@@ -1,5 +1,7 @@
 import User from "../models/user.models.js";
 import bcrypt from "bcrypt";
+import { genToken } from "../utils/auth.service.js";
+
 
 export const RegisterUser = async (req, res, next) => {
   try {
@@ -73,8 +75,10 @@ export const LoginUser = async (req, res, next) => {
 };
 
 export const LogoutUser = async (req, res, next) => {
-  try {
-    //Controller Logic
+   try {
+    res.clearCookie("CravingToken", { maxAge: 0 });
+
+    res.status(200).json({ message: "Logout Sucessfully" });
   } catch (error) {
     console.log(error.message);
     next();

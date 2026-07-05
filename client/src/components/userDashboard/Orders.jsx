@@ -103,7 +103,7 @@ const Orders = () => {
   
   return (
     <>
-      <div className="p-6 ">
+      <div className=" ">
         <div className="text-2xl font-bold"><h1>Hi, {user?.fullName} 👋</h1></div>
         <div className="flex justify-between mt-4 ">
           <div className=" p-1 w-1/6 rounded-xl shadow-2xl">

@@ -84,12 +84,12 @@ const Footer = () => {
             />
           </div>
           <div className="grid grid-cols-4 gap-8">
-            {footerLinks.map((section) => (
+            {footerLinks.map((section,idx) => (
               <div 
               className="flex flex-col "
               key={section.id}>
                 {" "}
-                <h5 className="font-semibold text-xl mb-3">{section.title}</h5>
+                <h5 className="font-semibold text-xl mb-3" key={idx}>{section.title}</h5>
                 {section.links.map((link) => (
                   <Link to={link.path} 
                   className="hover:text-(--color-primary)"

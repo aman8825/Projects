@@ -64,7 +64,7 @@ const ContactUs = () => {
   };
   return (
     <>
-      <div className="h-[90vh]  grid-cols-2 p-20 bg-[url('https://cravings.ricr.in/contactPage.jpg')] bg-cover ">
+      <div className="h-full  grid-cols-2 p-20 bg-[url('https://cravings.ricr.in/contactPage.jpg')] bg-cover ">
         <div className="w-md bg-(--color-base-200) rounded-2xl shadow p-10 flex flex-col justify-center ">
           <h1 className="font-bold text-3xl text-(--color-primary) text-center">
             Contact Us
@@ -81,7 +81,7 @@ const ContactUs = () => {
                 onChange={handleChange}
                 value={contactData.fullName}
                 placeholder="Enter your name"
-                className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
+                className="p-2 border-1 border-orange-200  focus:border-orange-500 outline-none "
               />
               <input
                 type="email"
@@ -89,7 +89,7 @@ const ContactUs = () => {
                 onChange={handleChange}
                 value={contactData.email}
                 placeholder="Enter your email"
-                className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
+                className="p-2 border-1 border-orange-200  focus:border-orange-500 outline-none "
               />
               <input
                 type="tel"
@@ -97,7 +97,7 @@ const ContactUs = () => {
                 onChange={handleChange}
                 value={contactData.phone}
                 placeholder="Enter your phone number"
-                className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
+               className="p-2 border-1 border-orange-200  focus:border-orange-500 outline-none "
               />
               <input
                 type="text"
@@ -105,14 +105,14 @@ const ContactUs = () => {
                 onChange={handleChange}
                 value={contactData.subject}
                 placeholder="What is this about?"
-                className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
+                className="p-2 border-1 border-orange-200  focus:border-orange-500 outline-none "
               />
               <textarea
                 name="message"
                 onChange={handleChange}
                 value={contactData.message}
                 placeholder="Write your message here..."
-                className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none h-24"
+               className="p-2 border-1 min-h-20 max-h-52 border-orange-200  focus:border-orange-500 outline-none "
               ></textarea>
             </div>
             <button

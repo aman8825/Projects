@@ -74,7 +74,7 @@ const Register = () => {
                 onChange={handleChange}
                 value={registerData.fullName}
                 placeholder="Enter your name"
-                className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
+                className="p-2 border border-orange-200 focus:border focus:border-orange-500 outline-none "
               />
               <input
                 type="email"
@@ -82,7 +82,7 @@ const Register = () => {
                 onChange={handleChange}
                 value={registerData.email}
                 placeholder="Enter your email"
-                className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
+                 className="p-2 border border-orange-200 focus:border focus:border-orange-500 outline-none "
               />
               <input
                 type="tel"
@@ -90,7 +90,7 @@ const Register = () => {
                 onChange={handleChange}
                 value={registerData.phone}
                 placeholder="Enter your phoneNo"
-                className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
+                 className="p-2 border border-orange-200 focus:border focus:border-orange-500 outline-none "
               />
               <input
                 type="password"
@@ -98,7 +98,7 @@ const Register = () => {
                 onChange={handleChange}
                 value={registerData.password}
                 placeholder="Enter your password"
-                className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
+                 className="p-2 border border-orange-200 focus:border focus:border-orange-500 outline-none "
               />
               <input
                 type="password"
@@ -106,7 +106,7 @@ const Register = () => {
                 onChange={handleChange}
                 value={registerData.confirmPassword}
                 placeholder="Confirm your password"
-                className="p-2 border border-orange-200 focus:border-2 focus:border-orange-500 outline-none "
+                 className="p-2 border-1 border-orange-200 focus:border-1 focus:border-orange-500 outline-none "
               />
               <div className="flex gap-1">
                 <input type="checkbox" /> <span>I agree to the </span>{" "}

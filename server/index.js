@@ -1,5 +1,5 @@
 
-import Cloudinary fro
+import cloudinary from "./src/config/cloudinary.config.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -41,7 +41,15 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log("Server Started on port:", port);
   connectDB();
+  try {
+    const result = await cloudinary.api.ping();
+    console.log("Cloudinary Connected :");
+    console.log(result);
+  } catch (error) {
+    console.log(error.message);
+    process.exit(1);
+  }
 });

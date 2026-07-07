@@ -9,7 +9,7 @@ const Navebar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    sessionStorage.removeItem("UserData");
+    sessionStorage.removeItem("cravingUser");
     setIsLogin(false);
     setUser(false);
     navigate("/");

@@ -68,7 +68,7 @@ const CustomerSetting = () => {
   return (
     <div className="overflow-y-auto h-full p-6 space-y-6">
       {/* User Profile Section */}
-      <div className="bg-(--color-base-200) rounded-lg p-6">
+      <div className="bg-(--color-base-300) rounded-lg p-6">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">Profile Information</h3>
           {!editingProfile ? (
@@ -151,7 +151,7 @@ const CustomerSetting = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleProfileChange}
-                  className={`w-full px-3 py-2 border ${editingProfile ? "border-(--color-secondary) disabled:bg-(--color-secondary)" : "border-transparent"} rounded col-span-4`}
+                  className={`w-full px-3 py-2 border ${editingProfile ? "border-(--color-secondary) disabled:bg-(--color-secondary)" : "border-transparent"} rounded col-span-4 cursor-not-allowed`}
                   disabled
                 />
 

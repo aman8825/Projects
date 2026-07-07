@@ -18,7 +18,7 @@ const Login = () => {
     const name = e.target.name;
     const value = e.target.value;
 
-    setLoginData((prevData) => ({ ...prevData, [name]: value }));
+    setLoginData((prevData) => ({...prevData, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -36,7 +36,7 @@ const Login = () => {
       const res= await api.post("/auth/login", payload)
      toast.success(res.data.message);
      
-      sessionStorage.setItem("UserData", JSON.stringify(res.data.data));
+       sessionStorage.setItem("cravingUser", JSON.stringify(res.data.data));
       setUser(res.data.data)
       // setIsLogin(true);
      navigate("/user/dashboard")

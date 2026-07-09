@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 const Login = () => {
   const {setUser,setIsLogin, isLogin} =useAuth()
+  const [role, setRole] = useState();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: "",
@@ -36,16 +38,29 @@ const Login = () => {
       const res= await api.post("/auth/login", payload)
      toast.success(res.data.message);
      
+     
+     
        sessionStorage.setItem("cravingUser", JSON.stringify(res.data.data));
       setUser(res.data.data)
-      // setIsLogin(true);
-     navigate("/user/dashboard")
-     
+      setIsLogin(true);
+     setRole(res.data.data.userType);
+      
+      res.data.data.userType === "restaurant" &&
+        navigate("/restaurant-dashboard");
+
+      res.data.data.userType === "rider" && navigate("/rider-dashboard");
+
+      res.data.data.userType === "admin" && navigate("/admin-dashboard");
+
+      res.data.data.userType === "customer" && navigate("/customer-dashboard");
+     console.log(res.data);
     } catch (error) {
       toast.error(
 error.response.status + " | " + error.response?.data?.message||
 error.message
       )     
+    }finally {
+      setLoading(false);
     }
   };
 

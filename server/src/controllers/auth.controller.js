@@ -5,9 +5,9 @@ import { genToken } from "../utils/auth.service.js";
 
 export const RegisterUser = async (req, res, next) => {
   try {
-    const { fullName, email, password, phone } = req.body;
+    const { fullName, email, password, phone,userType } = req.body;
 
-    if (!fullName || !email || !password || !phone ) {
+    if (!fullName || !email || !password || !phone ||!userType ) {
       const error = new Error("All fields Required");
       error.statusCode = 400;
       return next(error);
@@ -21,7 +21,7 @@ export const RegisterUser = async (req, res, next) => {
     }
 
     const photoURL =`https://placehold.co/600x400?text=${fullName.charAt(0).toUpperCase()}`;
- const photo = {
+ const photo = {       
       url: photoURL,
       publicId: null,
     };
@@ -34,6 +34,7 @@ export const RegisterUser = async (req, res, next) => {
       password: hashedPassword,
       phone,
       photo,
+      userType
     });
 
     res.status(201).json({ message: "User Created Successfully" });

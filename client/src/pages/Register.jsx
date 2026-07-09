@@ -15,9 +15,17 @@ const Register = () => {
   });
   const [validateError, setValidateError] = useState();
   const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setRegisterData((prevData) => ({ ...prevData, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+  const handleUserTypeChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      userType: e.target.value,
+    }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,8 +65,34 @@ const Register = () => {
             Join us as a Customer, Restaurant, or Rider
           </p>
 
+        {/* User Type Selection */}
+        <div className="mb-6">
+          <label className="block text-(--color-neutral) font-semibold mb-3">
+            Register as:
+          </label>
+          <div className="flex gap-5">
+            {["customer", "restaurant", "rider"].map((type) => (
+              <label
+                key={type}
+                className="flex items-center gap-2 cursor-pointer"
+              >
+                <input
+                  type="radio"
+                  name="userType"
+                  value={type}
+                  checked={registerData.userType === type}
+                  onChange={handleUserTypeChange}
+                  className="cursor-pointer"
+                />
+                <span className="text-(--color-neutral) capitalize">
+                  {type}
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
           <form onSubmit={handleSubmit}>
-            <h3>Register as:</h3>
+            {/* <h3>Register as:</h3>
             <div className="flex gap-3 mt-1 mb-1 text-xl text-gray-600">
               <input type="radio" value="customer" name="registerAs" />
               <span>customer</span>
@@ -66,7 +100,7 @@ const Register = () => {
               <span>restaurant</span>
               <input type="radio" name="registerAs" />
               <span>rider</span>
-            </div>
+            </div> */}
             <div className="flex flex-col gap-4 w-full mt-2.5">
               <input
                 type="text"

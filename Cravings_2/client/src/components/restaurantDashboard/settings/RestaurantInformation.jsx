@@ -221,7 +221,7 @@ setEditingLegalInfo(false)
 
   useEffect(() => {
    if(user?._id){
-      fetchRestaurantData();
+      // fetchRestaurantData();
    }
 }, [user?._id]);
 useEffect(() => {

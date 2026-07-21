@@ -6,69 +6,36 @@ import {
   deleteSingleImage,
 } from "../utils/image.service.js";
 
-// export const RestaurantGetData = async (req, res, next) => {
-//   try {
-//     const currentUser = req.user;
-//     const managerId = req.query.id;
-
-//     console.log("Current User:", currentUser);
-//     console.log("Manager ID:", managerId);
-
-
-//     if (currentUser._id.toString() !== managerId) {
-//       const error = new Error("Unauthorized Access");
-//       error.statusCode = 401;
-//       return next(error);
-//     }
-
-//     const restaurantData = await Restaurant.find({ managerId });
-
-//     if (restaurantData) {
-//       res.status(200).json({
-//         message: "Restaurant Fetched Successfully",
-//         data: restaurantData,
-//       });
-//     } else {
-//       res.status(200).json({
-//         message: "No restaurant Data Found",
-//         data: {},
-//       });
-//     }
-//   } catch (error) {
-//     console.log(error.message);
-//     next();
-//   }
-// };
 export const RestaurantGetData = async (req, res, next) => {
   try {
-
     const currentUser = req.user;
+    const managerId = req.query.id;
 
-    console.log("Current User :", currentUser._id);
+    console.log("Current User:", currentUser);
+    console.log("Manager ID:", managerId);
 
-    const restaurantData = await Restaurant.findOne({
-      managerId: currentUser._id,
-    });
-
-    if (!restaurantData) {
-      return res.status(404).json({
-        success: false,
-        message: "Restaurant not found",
-      });
+    if (currentUser._id.toString() !== managerId) {
+      const error = new Error("Unauthorized Access");
+      error.statusCode = 401;
+      return next(error);
     }
 
-    return res.status(200).json({
-      success: true,
-      message: "Restaurant fetched successfully",
-      data: restaurantData,
-    });
+    const restaurantData = await Restaurant.find({ managerId });
 
+    if (restaurantData) {
+      res.status(200).json({
+        message: "Restaurant Fetched Successfully",
+        data: restaurantData,
+      });
+    } else {
+      res.status(200).json({
+        message: "No restaurant Data Found",
+        data: {},
+      });
+    }
   } catch (error) {
-
-    console.log(error);
-
-    next(error);
-
+    console.log(error.message);
+    next();
   }
 };
 
@@ -157,53 +124,110 @@ export const RestaurantUpdateProfile = async (req, res, next) => {
   }
 };
 
-export const RestaurantUpdateInformation=async (req,res,next)=>{
-   try {
-const currentUser = req.user;
-console.log("CurrentUSer"+currentUser);
-
-const restaurant = await Restaurant.findOne({
-  managerId: currentUser._id,
-});
-console.log("Searching Manager ID :", currentUser._id);
-console.log("Resturent"+restaurant);
-
-const{
-  restaurantName,
-  description,
+export const RestaurantUpdateInfo = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+    const {
+      restaurantName,
+      description,
       restaurantType,
       cuisineTypes,
-      isOpen,
-      contactDetails,
-      servingHours,
+      contactEmail,
+      contactPhone,
+      openingTime,
+      closingTime,
     } = req.body;
 
-if(!restaurant){
-  const error = new Error(`Restaurant not found`);
-        error.statusCode = 400;
-        return next(error);
-}
-restaurant.restaurantName = restaurantName;
-restaurant.description = description;
-restaurant.restaurantType = restaurantType;
-restaurant.cuisineTypes = cuisineTypes;
-restaurant.isOpen = isOpen;
-restaurant.contactDetails = contactDetails;
-restaurant.servingHours = servingHours;
+    if (
+      !restaurantName ||
+      !description ||
+      !restaurantType ||
+      !cuisineTypes ||
+      !contactEmail ||
+      !contactPhone ||
+      !openingTime ||
+      !closingTime
+    ) {
+      const error = new Error("All fields are required");
+      error.statusCode = 400;
+      return next(error);
+    }
 
-    await restaurant.save();
-
-    return res.status(200).json({
-      message: "Restaurant information updated successfully",
-      data: restaurant,
+    const cuisineTypesArray = cuisineTypes
+      .split(",")
+      .map((type) => type.trim());
+    const existingRestaurant = await Restaurant.findOne({
+      managerId: currentUser._id,
     });
-} catch (error) {
-   
-  console.log(error);
+    if (!existingRestaurant) {
+      const newRestaurant = await Restaurant.create({
+        managerId: currentUser._id,
+        restaurantName,
+        description,
+        restaurantType,
+        cuisineTypes: cuisineTypesArray,
+        contactDetails: {
+          email: contactEmail,
+          phone: contactPhone,
+        },
+        servingHours: {
+          openingTime,
+          closingTime,
+        },
+      });
+      return res.status(201).json({
+        message: "Restaurant profile created successfully",
+        data: newRestaurant,
+      });
+    } else {
+      existingRestaurant.restaurantName = restaurantName;
+      existingRestaurant.description = description;
+      existingRestaurant.restaurantType = restaurantType;
+      existingRestaurant.cuisineTypes = cuisineTypesArray;
+      existingRestaurant.contactDetails.email = contactEmail;
+      existingRestaurant.contactDetails.phone = contactPhone;
+      existingRestaurant.servingHours.openingTime = openingTime;
+      existingRestaurant.servingHours.closingTime = closingTime;
+      await existingRestaurant.save();
+      return res.status(200).json({
+        message: "Restaurant profile updated successfully",
+        data: existingRestaurant,
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
     next();
   }
-}
+};
 
-export const RestaurantUpdateCoreDetails=async(req,res,next)=>{
+export const OpenRestaurant = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
 
-}
+    const OpenStatus = req.params.openStatus;
+
+    console.log("Open Status is", OpenStatus);
+
+    const existingRestaurant = await Restaurant.findOne({
+      managerId: currentUser._id,
+    });
+
+    if (!existingRestaurant) {
+      const error = new Error("Restaurant Not Found");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    existingRestaurant.isOpen = OpenStatus;
+
+    await existingRestaurant.save();
+
+    return res.status(200).json({
+      message: `${OpenStatus ? "Restaurant is Live Now" : "Restaurant is Offline"}`,
+      data: existingRestaurant,
+    });
+  } catch (error) {
+    console.log(error.message);
+    next();
+  }
+};

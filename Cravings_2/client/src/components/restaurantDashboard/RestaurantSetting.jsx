@@ -3,8 +3,9 @@ import api from "../../config/ApiConfig";
 import toast from "react-hot-toast";
 import { RiLoader4Fill } from "react-icons/ri";
 import { useAuth } from "../../context/AuthContext";
-import ResturantCoreDetails from "./settings/ResturantCoreDetails";
+
 import Information from "./settings/restaurantInformation/Index";
+import CoreDetails from "./settings/restaurantCoreDetails/index"
 import RestaurantPhotos from "./settings/RestaurantPhoto";
 import Loader from "../../assets/runningLoader.gif";
 import { IoMdHammer } from "react-icons/io";
@@ -20,7 +21,7 @@ const RestaurantSetting = () => {
 
   const [isLoadingResturantOpen, setIsLoadingResturantOpen] = useState(true);
   const [isRestaurantOpen, setIsRestaurantOpen] = useState(
-    sessionStorage.getItem("RestaurantOpen") || false,
+     () => sessionStorage.getItem("RestaurantOpen") === "true",
   );  
   
 
@@ -134,7 +135,7 @@ const RestaurantSetting = () => {
         ) : (
           <div className="h-full rounded-lg bg-(--color-base-200) p-2">
             {activeTab === "information" && <Information />}
-            {activeTab === "coreDetails" && <ResturantCoreDetails />}
+            {activeTab === "coreDetails" && <CoreDetails />}
             {activeTab === "photos" && <RestaurantPhotos />}
           </div>
         )}

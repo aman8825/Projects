@@ -96,7 +96,7 @@ const RestaurantSetting = () => {
     fetchRestaurantData();
   }, [user]);
 
-  console.log(isRestaurantOpen);
+  
 
   return (
     <>
@@ -126,7 +126,11 @@ const RestaurantSetting = () => {
              onChange={handleRestaurantOpen}
                 className="toggle text-center bg-red-400 text-red-800 border-(--color-primary) checked:bg-green-400 checked:text-green-800"
               />
+              
             )}
+          
+            
+            
           </div>
         </div>
 

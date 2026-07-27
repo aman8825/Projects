@@ -34,7 +34,7 @@ const RestaurantDashboard = () => {
 
   return (
     <>
-      <div className="h-[91vh] flex gap-2 p-2">
+      <div className="h-[90vh] flex gap-2 p-2">
         <div className="w-3/17 bg-(--color-base-200) p-4 rounded-lg shadow-md h-full">
           <RestaurantSidebar
             activeTab={activeTab}

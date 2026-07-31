@@ -1,14 +1,20 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
+import api from "../../../config/ApiConfig";
+import toast from "react-hot-toast";
 
-const RestaurantPhotos = () => {
+const RestaurantPhotos = ({ restaurantData, fetchRestaurantData }) => {
   const MAX_FILE_SIZE = 1024 * 1024; // 1MB
   const MAX_GALLERY_IMAGES = 8;
 
   const [coverImage, setCoverImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
   const [errors, setErrors] = useState({ cover: "", gallery: "" });
+  const [isUploading, setIsUploading] = useState(false);
+
+  const existingCover = restaurantData?.coverImage?.url;
+  const existingGallery = restaurantData?.restaurantImage || [];
 
   const coverPreview = useMemo(() => {
     return coverImage ? URL.createObjectURL(coverImage) : "";
@@ -102,9 +108,52 @@ const RestaurantPhotos = () => {
     setErrors((prev) => ({ ...prev, gallery: "" }));
   };
 
+  const handleSave = async () => {
+    if (!coverImage && galleryImages.length === 0) {
+      toast.error("Please select at least one image to upload.");
+      return;
+    }
+
+    try {
+      setIsUploading(true);
+      const formData = new FormData();
+      if (coverImage) formData.append("coverImage", coverImage);
+      galleryImages.forEach((img) => formData.append("restaurantImage", img));
+      console.log(formData);
+
+      const res = await api.post("/restaurant/update-profile", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      toast.success(res.data?.message || "Images uploaded successfully!");
+      setCoverImage(null);
+      setGalleryImages([]);
+      if (fetchRestaurantData) {
+        await fetchRestaurantData();
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Error uploading images. Please try again."
+      );
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   return (
-    <div className="p-2">
-      <div className="grid grid-cols-1 xl:grid-cols-[360px_1fr] gap-3 items-start">
+    <div className="p-2 flex flex-col h-full">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-bold text-(--color-primary)">Manage Photos</h2>
+        <button
+          onClick={handleSave}
+          disabled={isUploading}
+          className={`px-4 py-2 rounded-lg text-white font-semibold shadow-md transition-all ${isUploading ? "bg-gray-400 cursor-not-allowed" : "bg-(--color-primary) hover:bg-(--color-primary)/90"
+            }`}
+        >
+          {isUploading ? "Uploading..." : "Save Photos"}
+        </button>
+      </div>
+      <div className="grid grid-cols-1 xl:grid-cols-[360px_1fr] gap-3 items-start flex-1">
         <div className="bg-(--color-base-100) rounded-xl border border-(--color-secondary)/40 shadow-sm p-4 h-full">
           <div className="flex items-center justify-between border-b border-(--color-secondary) pb-2 mb-3">
             <div className="">
@@ -161,6 +210,20 @@ const RestaurantPhotos = () => {
                   <span className="shrink-0 rounded-full bg-(--color-secondary)/20 px-2 py-1 text-[11px]">
                     {(coverImage.size / 1024).toFixed(1)} KB
                   </span>
+                </div>
+              </div>
+            ) : existingCover ? (
+              <div className="overflow-hidden rounded-xl border border-(--color-secondary) bg-white shadow-sm">
+                <div className="relative">
+                  <img
+                    src={existingCover}
+                    alt="Current Cover"
+                    className="w-full h-56 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/35 via-transparent to-transparent" />
+                </div>
+                <div className="flex items-center justify-between gap-2 px-3 py-2 text-xs">
+                  <p className="truncate font-medium text-green-600">Currently Saved Cover Image</p>
                 </div>
               </div>
             ) : (
@@ -250,6 +313,28 @@ const RestaurantPhotos = () => {
                     </p>
                     <p className="mt-0.5 text-[11px] text-(--color-secondary-content)">
                       {(imagePreview.file.size / 1024).toFixed(1)} KB
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : existingGallery.length > 0 ? (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              {existingGallery.map((img, index) => (
+                <div
+                  key={img.publicId}
+                  className="group overflow-hidden rounded-xl border border-(--color-secondary) bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <div className="relative">
+                    <img
+                      src={img.url}
+                      alt={`Saved Restaurant ${index + 1}`}
+                      className="h-36 w-full object-cover"
+                    />
+                  </div>
+                  <div className="px-3 py-2">
+                    <p className="truncate text-xs font-medium text-green-600">
+                      Currently Saved Image
                     </p>
                   </div>
                 </div>

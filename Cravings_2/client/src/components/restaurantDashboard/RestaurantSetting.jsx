@@ -140,7 +140,7 @@ const RestaurantSetting = () => {
           <div className="h-full rounded-lg bg-(--color-base-200) p-2">
             {activeTab === "information" && <Information />}
             {activeTab === "coreDetails" && <CoreDetails />}
-            {activeTab === "photos" && <RestaurantPhotos />}
+            {activeTab === "photos" && <RestaurantPhotos restaurantData={restaurantData} fetchRestaurantData={fetchRestaurantData} />}
           </div>
         )}
       </div>

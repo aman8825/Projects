@@ -42,12 +42,8 @@ export const GetRestaurantDetails = async (req, res, next) => {
   try {
     const { restaurantId } = req.params;
 
-    const restaurantDetails = await Menu.findOne({ restaurantId }).populate({
-      path: "restaurantId",
-      populate: {
-        path: "managerId",
-      },
-    })
+    // Fetch the restaurant directly, instead of looking for a Menu.
+    const restaurantDetails = await Restaurant.findById(restaurantId).populate("managerId");
 
     if (!restaurantDetails) {
       const error = new Error("Restaurant not found");
@@ -58,6 +54,6 @@ export const GetRestaurantDetails = async (req, res, next) => {
     res.status(200).json({ data: restaurantDetails });
   } catch (error) {
     console.log(error.message);
-    next();
+    next(error);
   }
 };

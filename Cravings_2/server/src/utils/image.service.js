@@ -8,9 +8,6 @@ export const uploadMultipleImages = async (Images, storageLocation) => {
 
       const result = await cloudinary.uploader.upload(dataURI, {
         folder: storageLocation,
-        width: 500,
-        height: 500,
-        crop: "fill",
       });
 
       return {
@@ -57,9 +54,6 @@ export const uploadSingleImage = async (image, storageLocation) => {
     console.log("Data URI created:", dataURI.slice(0, 100)); // Log the first 100 characters of the Data URI for debugging
     const result = await cloudinary.uploader.upload(dataURI, {
       folder: storageLocation,
-      width: 500,
-      height: 500,
-      crop: "fill",
     });
 
     console.log("Image uploaded to Cloudinary:", {
